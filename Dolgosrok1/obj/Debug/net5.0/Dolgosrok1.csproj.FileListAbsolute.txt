@@ -1,0 +1,16 @@
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1.deps.json
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1.runtimeconfig.json
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1.runtimeconfig.dev.json
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1.dll
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/ref/Dolgosrok1.dll
+/home/svyatoslaw/projects/Dolgosrok1/bin/Debug/net5.0/Dolgosrok1.pdb
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.csproj.AssemblyReference.cache
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.GeneratedMSBuildEditorConfig.editorconfig
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.AssemblyInfoInputs.cache
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.AssemblyInfo.cs
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.csproj.CoreCompileInputs.cache
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.dll
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/ref/Dolgosrok1.dll
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.pdb
+/home/svyatoslaw/projects/Dolgosrok1/obj/Debug/net5.0/Dolgosrok1.genruntimeconfig.cache
