@@ -1,10 +1,14 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using myFirstProtocol;
+using myInterface;
+using System.Windows.Input;
+using System.Text;
 
-namespace Dolgosrok2
+namespace myClient
 {
+
     class Program
     {
         static int port = 8005;
@@ -14,37 +18,23 @@ namespace Dolgosrok2
             try
             {
                 IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
- 
+
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 // подключаемся к удаленному хосту
                 socket.Connect(ipPoint);
-                //==========================================================
-                TMPD1Packet sendPacket = new TMPD1Packet(1);
-                sendPacket.SetPathToFile("/home/svyatoslaw/tests/file3.txt");
-                sendPacket.SetParamsOfExe("");
-                
-                socket.Send(sendPacket.ToPack());
-                //==========================================================
-                // получаем ответ
-                byte[] data = new byte[256]; // буфер для ответа
-                
-                int bytes = 0; // количество полученных байт
- 
-                do
+                while (true)
                 {
-                    bytes = socket.Receive(data);
+
+                    Interface face = new Interface();
+                    TMPD1Packet sendPacket = new TMPD1Packet(1);
+                    sendPacket.SetPathToFile(face.GetResult());
+                    socket.Send(sendPacket.ToPack());
                 }
-                while (socket.Available > 0);
-
-                TMPD1Packet getPacket = new TMPD1Packet(0);
-                getPacket = TMPD1Packet.ToParse(data);
-                Console.WriteLine(getPacket.GetReply());
-
                 // закрываем сокет
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
