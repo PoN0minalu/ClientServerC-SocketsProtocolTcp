@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "/home/eugene/.nuget/packages/": {}
+    "/home/svyatoslaw/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/eugene/DolgosrokZ1EugeneSvyat/Dolgosrok2/Dolgosrok2.csproj",
+      "projectUniqueName": "/home/svyatoslaw/projects/Dolgosrok2/Dolgosrok2.csproj",
       "projectName": "Dolgosrok2",
-      "projectPath": "/home/eugene/DolgosrokZ1EugeneSvyat/Dolgosrok2/Dolgosrok2.csproj",
-      "packagesPath": "/home/eugene/.nuget/packages/",
-      "outputPath": "/home/eugene/DolgosrokZ1EugeneSvyat/Dolgosrok2/obj/",
+      "projectPath": "/home/svyatoslaw/projects/Dolgosrok2/Dolgosrok2.csproj",
+      "packagesPath": "/home/svyatoslaw/.nuget/packages/",
+      "outputPath": "/home/svyatoslaw/projects/Dolgosrok2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/eugene/.nuget/NuGet/NuGet.Config"
+        "/home/svyatoslaw/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"

@@ -29,7 +29,7 @@ namespace Dolgosrok1
                     Socket handler = listenSocket.Accept();
                     // получаем сообщение
                     int bytes = 0; // количество полученных байтов
-                    byte[] data = new byte[30]; // буфер для получаемых данных
+                    byte[] data = new byte[256]; // буфер для получаемых данных
  
                     do
                     {
@@ -39,9 +39,13 @@ namespace Dolgosrok1
 
                     TMPD1Packet getPacket = new TMPD1Packet(0);
                     getPacket = TMPD1Packet.ToParse(data);
-                    string result = getPacket.GetPath();
 
-                    Console.WriteLine(result);
+                    ManagerOfPackets boss = new ManagerOfPackets(getPacket);
+                    TMPD1Packet answer = new TMPD1Packet(0);
+                    answer.SetReply(boss.DirtyWork());
+                    string message = boss.DirtyWork();
+                    handler.Send(answer.ToPack());
+        
                     // закрываем сокет
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
