@@ -12,7 +12,7 @@ namespace myClient
     class Program
     {
         static int port = 8005;
-        static string address = "192.168.42.255";
+        static string address = "192.168.42.129";
         static void Main(string[] args)
         {
             try
