@@ -10,7 +10,7 @@ namespace Dolgosrok1
         static void Main(string[] args)
         {   
            // получаем адреса для запуска сокета
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8005);
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, 8005);
              
             // создаем сокет
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
