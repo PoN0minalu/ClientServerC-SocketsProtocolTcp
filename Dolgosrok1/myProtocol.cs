@@ -71,7 +71,12 @@ namespace myFirstProtocol
         }
         public void SetPathToGetFile(string pathtogetfile)
         {
-            __pathToGetFile = Encoding.UTF8.GetBytes(pathtogetfile);
+            string aim = pathtogetfile;
+            if(__type == __type4)
+            {
+                aim = pathtogetfile + "/" + Path.GetFileName(GetPath());
+            }           
+            __pathToGetFile = Encoding.UTF8.GetBytes(aim);
         }
         public void SetReply(string answer)
         {
@@ -266,6 +271,7 @@ namespace myFirstProtocol
                     return DownLoadFileToClient();
                 default:
                     TMPD1Packet answer = new TMPD1Packet(6);
+                    Console.WriteLine("Неизвестный пакет");
                     return answer;
             }
         }
