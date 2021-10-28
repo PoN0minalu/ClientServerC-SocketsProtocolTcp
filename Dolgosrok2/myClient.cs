@@ -11,17 +11,20 @@ namespace myClient
 
     class Program
     {
-        static int port = 8005;
-        static string address = "192.168.42.129";
+        static int port = 1924;
+        static string address = "192.168.1.7";
         static void Main(string[] args)
         {
             try
             {
-                IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+                //IPAddress ip = Dns.GetHostEntry("192.168.42.129").AddressList[0]; 
+                IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);//IPAddress.Parse(address), port);
 
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
                 // подключаемся к удаленному хосту
                 socket.Connect(ipPoint);
+                Console.WriteLine("Connection succesed");
                 while (true)
                 {
 
@@ -32,21 +35,26 @@ namespace myClient
                     {
                         case 1:
                             sendPacket.SetPathToFile(face.GetResult());
-                            sendPacket.SetPathToFile(face.GetParam());
+                            if (face.GetParam() == null)
+                            {
+                                sendPacket.SetParamsOfExe(face.GetParam());
+                            }
                             break;
                         case 2:
                             sendPacket.SetPathToFile(face.GetResult());
                             break;
+                        case 3:
+                            sendPacket.SetFileBytes(face.GetResult());
+                            sendPacket.SetPathToFile(face.GetFinal());
+                            break;
+                        case 4:
+                            sendPacket.SetPathToFile(face.GetFinal());
+                            sendPacket.SetPathToGetFile(face.GetFinal());
+                            break;
                     }
-                    if (toDo == 3 || toDo == 4)
-                    {
-                        sendPacket.SetPathToFile(face.GetResult());
-                        sendPacket.SetPathToFile(face.GetFinal());
-                    }
-                    sendPacket.SetPathToFile(face.GetResult());
                     socket.Send(sendPacket.ToPack());
                     // получаем ответ
-                    byte[] data = new byte[256]; // буфер для ответа
+                    byte[] data = new byte[15000000]; // буфер для ответа
                     int bytes = 0; // количество полученных байт
                     do
                     {
@@ -57,8 +65,6 @@ namespace myClient
                     getPacket = TMPD1Packet.ToParse(data);
                     ManagerOfPackets boss = new ManagerOfPackets(getPacket);
                     boss.DirtyWork();
-                    Console.WriteLine("\nBackspace - menu\nESC - exit");
-                    face.CheckBackESC();
                 }
                 // закрываем сокет
                 socket.Shutdown(SocketShutdown.Both);
