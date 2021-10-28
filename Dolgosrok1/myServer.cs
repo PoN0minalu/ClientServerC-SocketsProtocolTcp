@@ -9,8 +9,9 @@ namespace Dolgosrok1
     {
         static void Main(string[] args)
         {   
-           // получаем адреса для запуска сокета
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, 8005);
+            // получаем адреса для запуска сокета
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, 1924);
+            //IPEndPoint ipPoint = new IPEndPoint(/*IPAddress.Parse("192.168.42.166")*/ip , 8005);
              
             // создаем сокет
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -21,16 +22,16 @@ namespace Dolgosrok1
  
                 // начинаем прослушивание
                 listenSocket.Listen(100);
- 
+
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
- 
+
                 while (true)
                 {
                     Socket handler = listenSocket.Accept();
                     // получаем сообщение
                     int bytes = 0; // количество полученных байтов
                     byte[] data = new byte[150000000]; // буфер для получаемых данных
- 
+
                     do
                     {
                         bytes = handler.Receive(data);

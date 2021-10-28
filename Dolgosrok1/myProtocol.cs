@@ -9,12 +9,12 @@ namespace myFirstProtocol
     public class TMPD1Packet
     {
         private byte __type; //тип пакета 
-        public const byte __type0 = 0xFF; //пакет ответа от сервера
-        public const byte __type1 = 0xD; // пакет с запуском программы в консоли
-        public const byte __type2 = 0x1E; // пакет с удалением файла через консоль
-        public const byte __type3 = 0x45; // пакет с загрузкой указанного файла
-        public const byte __type4 = 0x4A; // пакет с запросом на получение файла
-        public const byte __type5 = 0xBF; // пакет с файлом для отправки с сервера на клиент
+        public const byte __type0Reply = 0xFF; //пакет ответа от сервера
+        public const byte __type1Exe = 0xD; // пакет с запуском программы в консоли
+        public const byte __type2Del = 0x1E; // пакет с удалением файла через консоль
+        public const byte __type3Upld = 0x45; // пакет с загрузкой указанного файла
+        public const byte __type4Dwld = 0x4A; // пакет с запросом на получение файла
+        public const byte __type5AnswerDwld = 0xBF; // пакет с файлом для отправки с сервера на клиент
         public const byte __unknownType = 0x13; //неопознанный пакет
         private byte[] __pathToFile; // путь к файлуS
         private byte[] __paramsOfExe; // параметры запуска программы
@@ -28,31 +28,31 @@ namespace myFirstProtocol
             switch(type)
             {
                 case 1:
-                    __type = __type1;
+                    __type = __type1Exe;
                     break;
                 case 2:
-                    __type = __type2;
+                    __type = __type2Del;
                     break;
                 case 3:
-                    __type = __type3;
+                    __type = __type3Upld;
                     break;
                 case 4:
-                    __type = __type4;
+                    __type = __type4Dwld;
                     break;
                 case 5:
-                    __type = __type5;
+                    __type = __type5AnswerDwld;
                     break;
                 case 6:
                     __type = __unknownType;
                     break;
                 default:
-                    __type = __type0;
+                    __type = __type0Reply;
                     break;
             }
         }
         public void SetPathToFile(string pathToFile) //записываем путь к файлу пакет
         {
-            if(__type == __type3)
+            if(__type == __type3Upld)
             {
                 string aim = pathToFile + "/" + __fileName;
                 __pathToFile = Encoding.UTF8.GetBytes(aim);
@@ -72,7 +72,7 @@ namespace myFirstProtocol
         public void SetPathToGetFile(string pathtogetfile)
         {
             string aim = pathtogetfile;
-            if(__type == __type4)
+            if(__type == __type4Dwld)
             {
                 aim = pathtogetfile + "/" + Path.GetFileName(GetPath());
             }           
@@ -85,14 +85,14 @@ namespace myFirstProtocol
         public byte[] ToPack() //упаковываем все в массив байтов
         {
             var packer = new MemoryStream();
-            if(__type == __type0)
+            if(__type == __type0Reply)
             {
                 packer.WriteByte(__type);
                 packer.WriteByte(Convert.ToByte(__reply.Length));
                 packer.Write(__reply, 0, __reply.Length);
                 return packer.ToArray();
             }
-            else if(__type == __type1)
+            else if(__type == __type1Exe)
             {
                 if(__paramsOfExe == null)
                 {
@@ -105,14 +105,14 @@ namespace myFirstProtocol
                 packer.Write(__paramsOfExe, 0, __paramsOfExe.Length);
                 return packer.ToArray();
             }
-            else if(__type == __type2)
+            else if(__type == __type2Del)
             {
                 packer.WriteByte(__type);
                 packer.WriteByte(Convert.ToByte(__pathToFile.Length));
                 packer.Write(__pathToFile, 0, __pathToFile.Length);
                 return packer.ToArray();
             }
-            else if(__type == __type3)
+            else if(__type == __type3Upld)
             {
                 packer.WriteByte(__type);
                 packer.WriteByte(Convert.ToByte(__pathToFile.Length));           
@@ -121,7 +121,7 @@ namespace myFirstProtocol
                 packer.Write(__fileBytes, 0, __fileBytes.Length);
                 return packer.ToArray();
             }
-            else if(__type == __type4)
+            else if(__type == __type4Dwld)
             {
                 packer.WriteByte(__type);
                 packer.WriteByte(Convert.ToByte(__pathToFile.Length));
@@ -130,7 +130,7 @@ namespace myFirstProtocol
                 packer.Write(__pathToGetFile, 0, __pathToGetFile.Length);
                 return packer.ToArray();
             }
-            else if(__type == __type5)
+            else if(__type == __type5AnswerDwld)
             {
                 packer.WriteByte(__type);
                 packer.WriteByte(Convert.ToByte(__pathToGetFile.Length));
@@ -148,22 +148,22 @@ namespace myFirstProtocol
             int type;
             switch(__type)
             {
-                case __type0:
+                case __type0Reply:
                     type = 0;
                     break;
-                case __type1:
+                case __type1Exe:
                     type = 1;
                     break;
-                case __type2:
+                case __type2Del:
                     type = 2;
                     break;
-                case __type3:
+                case __type3Upld:
                     type = 3;
                     break;
-                case __type4:
+                case __type4Dwld:
                     type = 4;
                     break;
-                case __type5:
+                case __type5AnswerDwld:
                     type = 5;
                     break;
                 default:
@@ -172,13 +172,13 @@ namespace myFirstProtocol
             }
 
             var newPacket = new TMPD1Packet(type);
-            if (__type == __type0)
+            if (__type == __type0Reply)
             {
                 var sizeOfReply = Convert.ToInt32(buff[1]);
                 newPacket.__reply = buff.Skip(2).Take(sizeOfReply).ToArray();
                 return newPacket;
             }
-            else if(__type == __type1)
+            else if(__type == __type1Exe)
             {
                 var sizeOfPath = Convert.ToInt32(buff[1]);
                 var sizeOfParams = Convert.ToInt32(buff[2]);
@@ -186,13 +186,13 @@ namespace myFirstProtocol
                 newPacket.__paramsOfExe = buff.Skip(3 + sizeOfPath).Take(sizeOfParams).ToArray();
                 return newPacket;
             }
-            else if(__type == __type2)
+            else if(__type == __type2Del)
             {
                 var sizeOfPath = Convert.ToInt32(buff[1]);
                 newPacket.__pathToFile = buff.Skip(2).Take(sizeOfPath).ToArray();
                 return newPacket;
             }
-            else if(__type == __type3)
+            else if(__type == __type3Upld)
             {
                 var sizeOfPath = Convert.ToInt32(buff[1]);
                 var sizeOfFile = BitConverter.ToInt32(buff.Skip(2).Take(4).ToArray());
@@ -200,7 +200,7 @@ namespace myFirstProtocol
                 newPacket.__fileBytes = buff.Skip(6 + sizeOfPath).Take(sizeOfFile).ToArray();
                 return newPacket;
             }
-            else if(__type == __type4)
+            else if(__type == __type4Dwld)
             {
                 var sizeOfPath = Convert.ToInt32(buff[1]);
                 var sizeOfGettingPath = Convert.ToInt32(buff[2]);
@@ -208,7 +208,7 @@ namespace myFirstProtocol
                 newPacket.__pathToGetFile = buff.Skip(3 + sizeOfPath).Take(sizeOfGettingPath).ToArray();
                 return newPacket;
             }
-            else if(__type == __type5)
+            else if(__type == __type5AnswerDwld)
             {
                 var sizeOfGettingPath = Convert.ToInt32(buff[1]);
                 var sizeOfFile = BitConverter.ToInt32(buff.Skip(2).Take(4).ToArray());
@@ -257,17 +257,17 @@ namespace myFirstProtocol
         {
             switch(testPacket.GetTypeOfPacket())
             {
-                case TMPD1Packet.__type0:
+                case TMPD1Packet.__type0Reply:
                     return SeeTheResult();
-                case TMPD1Packet.__type1:
+                case TMPD1Packet.__type1Exe:
                     return ExecuteSomeProgram();
-                case TMPD1Packet.__type2:
+                case TMPD1Packet.__type2Del:
                     return DeleteTheFile();
-                case TMPD1Packet.__type3:
+                case TMPD1Packet.__type3Upld:
                     return DownLoadFileToServer();
-                case TMPD1Packet.__type4:
+                case TMPD1Packet.__type4Dwld:
                     return UploadFile();
-                case TMPD1Packet.__type5:
+                case TMPD1Packet.__type5AnswerDwld:
                     return DownLoadFileToClient();
                 default:
                     TMPD1Packet answer = new TMPD1Packet(6);
