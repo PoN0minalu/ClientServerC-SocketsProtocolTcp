@@ -1,3 +1,1 @@
-# svyat
-Dolgosrok
-Mnogo delat nado
+# Client-Server
