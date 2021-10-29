@@ -9,8 +9,9 @@ namespace Dolgosrok1
     {
         static void Main(string[] args)
         {   
-           // получаем адреса для запуска сокета
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8005);
+            // получаем адреса для запуска сокета
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Any, 1924);
+            //IPEndPoint ipPoint = new IPEndPoint(/*IPAddress.Parse("192.168.42.166")*/ip , 8005);
              
             // создаем сокет
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -21,16 +22,16 @@ namespace Dolgosrok1
  
                 // начинаем прослушивание
                 listenSocket.Listen(100);
- 
+
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
- 
+
                 while (true)
                 {
                     Socket handler = listenSocket.Accept();
                     // получаем сообщение
                     int bytes = 0; // количество полученных байтов
-                    byte[] data = new byte[256]; // буфер для получаемых данных
- 
+                    byte[] data = new byte[150000000]; // буфер для получаемых данных
+
                     do
                     {
                         bytes = handler.Receive(data);
@@ -41,10 +42,7 @@ namespace Dolgosrok1
                     getPacket = TMPD1Packet.ToParse(data);
 
                     ManagerOfPackets boss = new ManagerOfPackets(getPacket);
-                    TMPD1Packet answer = new TMPD1Packet(0);
-                    answer.SetReply(boss.DirtyWork());
-                    string message = boss.DirtyWork();
-                    handler.Send(answer.ToPack());
+                    handler.Send(boss.DirtyWork().ToPack());
         
                     // закрываем сокет
                     handler.Shutdown(SocketShutdown.Both);
